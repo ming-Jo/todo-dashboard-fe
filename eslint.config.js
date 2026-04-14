@@ -23,6 +23,11 @@ export default defineConfig([
       'simple-import-sort': simpleImportSort,
     },
     settings: {
+      'import/resolver': {
+        typescript: {
+          project: './tsconfig.app.json',
+        },
+      },
       'boundaries/elements': [
         { type: 'app', pattern: 'src/app/**' },
         { type: 'pages', pattern: 'src/pages/**' },
