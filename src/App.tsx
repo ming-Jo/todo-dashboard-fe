@@ -1,168 +1,61 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from './assets/vite.svg';
-import heroImg from './assets/hero.png';
-import './App.css';
-
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <section id='center'>
-        <div className='hero'>
-          <img
-            src={heroImg}
-            className='base'
-            width='170'
-            height='179'
-            alt=''
-          />
-          <img
-            src={reactLogo}
-            className='framework'
-            alt='React logo'
-          />
-          <img
-            src={viteLogo}
-            className='vite'
-            alt='Vite logo'
-          />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className='counter'
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+    <main className='mx-auto flex min-h-svh w-full max-w-4xl flex-col gap-6 px-6 py-10'>
+      <section className='rounded-xl border bg-layer p-6'>
+        <h1 className='text-2xl font-semibold text-content-primary'>디자인 토큰 기준 샘플</h1>
+        <p className='mt-2 text-sm text-content-secondary'>
+          Tailwind CSS 4 + token 구조 적용
+        </p>
       </section>
 
-      <div className='ticks'></div>
-
-      <section id='next-steps'>
-        <div id='docs'>
-          <svg
-            className='icon'
-            role='presentation'
-            aria-hidden='true'
-          >
-            <use href='/icons.svg#documentation-icon'></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a
-                href='https://vite.dev/'
-                target='_blank'
-              >
-                <img
-                  className='logo'
-                  src={viteLogo}
-                  alt=''
-                />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a
-                href='https://react.dev/'
-                target='_blank'
-              >
-                <img
-                  className='button-icon'
-                  src={reactLogo}
-                  alt=''
-                />
-                Learn more
-              </a>
-            </li>
-          </ul>
+      <section className='grid gap-4 md:grid-cols-2'>
+        <div className='rounded-xl border bg-layer p-5'>
+          <h2 className='text-base font-medium text-content-primary'>Primary 액션</h2>
+          <div className='mt-3 flex flex-wrap gap-3'>
+            <button
+              type='button'
+              className='rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground outline-none ring-0 transition hover:opacity-95 focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-layer'
+            >
+              활성 버튼
+            </button>
+            <button
+              type='button'
+              disabled
+              className='cursor-not-allowed rounded-md bg-disabled px-4 py-2 text-sm font-medium text-disabled-foreground'
+            >
+              비활성 버튼
+            </button>
+          </div>
         </div>
-        <div id='social'>
-          <svg
-            className='icon'
-            role='presentation'
-            aria-hidden='true'
-          >
-            <use href='/icons.svg#social-icon'></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a
-                href='https://github.com/vitejs/vite'
-                target='_blank'
-              >
-                <svg
-                  className='button-icon'
-                  role='presentation'
-                  aria-hidden='true'
-                >
-                  <use href='/icons.svg#github-icon'></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a
-                href='https://chat.vite.dev/'
-                target='_blank'
-              >
-                <svg
-                  className='button-icon'
-                  role='presentation'
-                  aria-hidden='true'
-                >
-                  <use href='/icons.svg#discord-icon'></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a
-                href='https://x.com/vite_js'
-                target='_blank'
-              >
-                <svg
-                  className='button-icon'
-                  role='presentation'
-                  aria-hidden='true'
-                >
-                  <use href='/icons.svg#x-icon'></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a
-                href='https://bsky.app/profile/vite.dev'
-                target='_blank'
-              >
-                <svg
-                  className='button-icon'
-                  role='presentation'
-                  aria-hidden='true'
-                >
-                  <use href='/icons.svg#bluesky-icon'></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
+
+        <div className='rounded-xl border bg-layer-elevated p-5'>
+          <h2 className='text-base font-medium text-content-primary'>상태/피드백</h2>
+          <div className='mt-3 rounded-md border border-error/20 bg-error/10 px-3 py-2 text-sm text-error'>
+            에러 메시지 예시
+          </div>
         </div>
       </section>
 
-      <div className='ticks'></div>
-      <section id='spacer'></section>
-    </>
+      <section className='rounded-xl border bg-layer p-5'>
+        <h2 className='text-base font-medium text-content-primary'>레이어 기준</h2>
+        <ul className='mt-3 space-y-2 text-sm text-content-secondary'>
+          <li>
+            <span className='font-medium text-content-primary'>background</span>: 앱 전체 바탕
+          </li>
+          <li>
+            <span className='font-medium text-content-primary'>layer</span>: 카드/패널 기본 레이어
+          </li>
+          <li>
+            <span className='font-medium text-content-primary'>layer-elevated</span>: 강조/호버
+            레이어
+          </li>
+          <li>
+            <span className='font-medium text-content-primary'>layer-overlay</span>: 모달 백드롭
+            레이어
+          </li>
+        </ul>
+      </section>
+    </main>
   );
 }
 
