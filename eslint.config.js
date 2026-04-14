@@ -1,5 +1,7 @@
 import js from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import boundaries from 'eslint-plugin-boundaries';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
@@ -16,6 +18,72 @@ export default defineConfig([
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
     ],
+    plugins: {
+      boundaries,
+      'simple-import-sort': simpleImportSort,
+    },
+    settings: {
+      'boundaries/elements': [
+        { type: 'app', pattern: 'src/app/**' },
+        { type: 'pages', pattern: 'src/pages/**' },
+        { type: 'widgets', pattern: 'src/widgets/**' },
+        { type: 'features', pattern: 'src/features/**' },
+        { type: 'entities', pattern: 'src/entities/**' },
+        { type: 'shared', pattern: 'src/shared/**' },
+      ],
+    },
+    rules: {
+      'simple-import-sort/imports': [
+        'error',
+        {
+          groups: [
+            ['^\\u0000'],
+            ['^react$', '^react-dom$', '^react-router-dom$', '^@?\\w'],
+            ['^@/app(/.*|$)', '^src/app(/.*|$)', '^\\.{1,2}/+app(/.*|$)'],
+            ['^@/pages(/.*|$)', '^src/pages(/.*|$)', '^\\.{1,2}/+pages(/.*|$)'],
+            ['^@/widgets(/.*|$)', '^src/widgets(/.*|$)', '^\\.{1,2}/+widgets(/.*|$)'],
+            ['^@/features(/.*|$)', '^src/features(/.*|$)', '^\\.{1,2}/+features(/.*|$)'],
+            ['^@/entities(/.*|$)', '^src/entities(/.*|$)', '^\\.{1,2}/+entities(/.*|$)'],
+            ['^@/shared(/.*|$)', '^src/shared(/.*|$)', '^\\.{1,2}/+shared(/.*|$)'],
+            ['^\\./(?=.*/)(?!/?$)', '^\\.\\.(?!/?$)', '^\\./?$'],
+            ['^.+\\.(css|scss)$'],
+          ],
+        },
+      ],
+      'simple-import-sort/exports': 'error',
+      'boundaries/dependencies': [
+        'error',
+        {
+          default: 'disallow',
+          rules: [
+            {
+              from: { type: 'app' },
+              allow: { to: { type: ['app', 'pages', 'widgets', 'features', 'entities', 'shared'] } },
+            },
+            {
+              from: { type: 'pages' },
+              allow: { to: { type: ['pages', 'widgets', 'features', 'entities', 'shared'] } },
+            },
+            {
+              from: { type: 'widgets' },
+              allow: { to: { type: ['widgets', 'features', 'entities', 'shared'] } },
+            },
+            {
+              from: { type: 'features' },
+              allow: { to: { type: ['features', 'entities', 'shared'] } },
+            },
+            {
+              from: { type: 'entities' },
+              allow: { to: { type: ['entities', 'shared'] } },
+            },
+            {
+              from: { type: 'shared' },
+              allow: { to: { type: ['shared'] } },
+            },
+          ],
+        },
+      ],
+    },
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
