@@ -38,7 +38,7 @@
   }
 
   body {
-    @apply m-0 bg-background font-sans text-content-primary antialiased;
+    @apply bg-background text-content-primary m-0 font-sans antialiased;
   }
 
   #root {
