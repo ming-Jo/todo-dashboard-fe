@@ -1,6 +1,4 @@
-type ErrorPayload = {
-  errorMessage?: string;
-};
+import type { ErrorResponse } from './types';
 
 export class ApiError extends Error {
   public readonly status: number;
@@ -33,6 +31,6 @@ export const getErrorMessageFromPayload = (payload: unknown): string | undefined
     return undefined;
   }
 
-  const { errorMessage } = payload as ErrorPayload;
+  const { errorMessage } = payload as Partial<ErrorResponse>;
   return typeof errorMessage === 'string' ? errorMessage : undefined;
 };

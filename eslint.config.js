@@ -9,7 +9,7 @@ import tseslint from 'typescript-eslint';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'public/mockServiceWorker.js']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
@@ -35,6 +35,7 @@ export default defineConfig([
         { type: 'features', pattern: 'src/features/**' },
         { type: 'entities', pattern: 'src/entities/**' },
         { type: 'shared', pattern: 'src/shared/**' },
+        { type: 'mocks', pattern: 'src/mocks/**' },
       ],
     },
     rules: {
@@ -50,6 +51,7 @@ export default defineConfig([
             ['^@/features(/.*|$)', '^src/features(/.*|$)', '^\\.{1,2}/+features(/.*|$)'],
             ['^@/entities(/.*|$)', '^src/entities(/.*|$)', '^\\.{1,2}/+entities(/.*|$)'],
             ['^@/shared(/.*|$)', '^src/shared(/.*|$)', '^\\.{1,2}/+shared(/.*|$)'],
+            ['^@/mocks(/.*|$)', '^src/mocks(/.*|$)', '^\\.{1,2}/+mocks(/.*|$)'],
             ['^\\./(?=.*/)(?!/?$)', '^\\.\\.(?!/?$)', '^\\./?$'],
             ['^.+\\.(css|scss)$'],
           ],
@@ -63,7 +65,9 @@ export default defineConfig([
           rules: [
             {
               from: { type: 'app' },
-              allow: { to: { type: ['app', 'pages', 'widgets', 'features', 'entities', 'shared'] } },
+              allow: {
+                to: { type: ['app', 'pages', 'widgets', 'features', 'entities', 'shared', 'mocks'] },
+              },
             },
             {
               from: { type: 'pages' },
@@ -84,6 +88,10 @@ export default defineConfig([
             {
               from: { type: 'shared' },
               allow: { to: { type: ['shared'] } },
+            },
+            {
+              from: { type: 'mocks' },
+              allow: { to: { type: ['mocks', 'shared'] } },
             },
           ],
         },
