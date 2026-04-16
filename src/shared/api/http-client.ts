@@ -1,7 +1,7 @@
 import { ApiError, getErrorMessageFromPayload } from './api-error';
 
 type RequestConfig = Omit<RequestInit, 'body'> & {
-  body?: BodyInit | Record<string, unknown> | undefined;
+  body?: BodyInit | unknown;
 };
 
 type MethodRequestConfig = Omit<RequestConfig, 'method'>;
