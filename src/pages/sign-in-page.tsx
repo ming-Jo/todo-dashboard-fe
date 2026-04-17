@@ -2,17 +2,28 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
+import { SignInErrorModal } from '@/widgets/sign-in';
+
 import { takeAuthErrorMessage, useSignInMutation } from '@/entities/auth';
 
-import { getErrorMessage, type SignInRequest } from '@/shared';
-import { ROUTE } from '@/shared';
+import { getErrorMessage, ROUTE, type SignInRequest, useModal } from '@/shared';
 
 export const SignInPage = () => {
   const navigate = useNavigate();
-  const signInMutation = useSignInMutation();
+  const { mutateAsync: signInMutate, isPending: isPendingSignIn } = useSignInMutation();
 
   const [authMessage] = useState<string | null>(() => takeAuthErrorMessage());
-  const [modalMessage, setModalMessage] = useState<string | null>(null);
+  const [modalMessage, setModalMessage] = useState('');
+  const {
+    isOpen: isErrorModalOpen,
+    openModal: openErrorModal,
+    closeModal: closeErrorModal,
+  } = useModal();
+
+  const handleCloseErrorModal = () => {
+    closeErrorModal();
+    setModalMessage('');
+  };
 
   const {
     register,
@@ -28,10 +39,11 @@ export const SignInPage = () => {
 
   const onSubmit = handleSubmit(async (values) => {
     try {
-      await signInMutation.mutateAsync(values);
+      await signInMutate(values);
       navigate(ROUTE.DASHBOARD);
     } catch (error) {
       setModalMessage(getErrorMessage(error));
+      openErrorModal();
     }
   });
 
@@ -110,33 +122,19 @@ export const SignInPage = () => {
 
           <button
             type='submit'
-            disabled={!isValid || signInMutation.isPending}
+            disabled={!isValid || isPendingSignIn}
             className='bg-primary text-primary-foreground disabled:bg-disabled disabled:text-disabled-foreground w-full cursor-pointer rounded-md px-4 py-2 text-sm font-medium disabled:cursor-not-allowed'
           >
-            {signInMutation.isPending ? '로그인 중...' : '제출'}
+            {isPendingSignIn ? '로그인 중...' : '제출'}
           </button>
         </form>
       </section>
 
-      {modalMessage && (
-        <div className='bg-layer-overlay fixed inset-0 z-50 flex items-center justify-center p-4'>
-          <div
-            role='dialog'
-            aria-modal='true'
-            aria-label='로그인 오류'
-            className='bg-layer w-full max-w-sm rounded-lg border p-5'
-          >
-            <h2 className='text-content-primary text-base font-semibold'>로그인 실패</h2>
-            <p className='text-content-secondary mt-2 text-sm'>{modalMessage}</p>
-            <button
-              type='button'
-              className='bg-primary text-primary-foreground mt-4 w-full rounded-md px-3 py-2 text-sm font-medium'
-              onClick={() => setModalMessage(null)}
-            >
-              확인
-            </button>
-          </div>
-        </div>
+      {isErrorModalOpen && (
+        <SignInErrorModal
+          message={modalMessage}
+          onClose={handleCloseErrorModal}
+        />
       )}
     </>
   );
