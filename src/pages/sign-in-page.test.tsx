@@ -43,7 +43,7 @@ describe('SignInPage', () => {
 
     expect(screen.getByLabelText('이메일')).toBeInTheDocument();
     expect(screen.getByLabelText('비밀번호')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: '제출' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: '로그인 하기' })).toBeDisabled();
   });
 
   it('유효성 검사 메시지를 표시하고 폼이 유효하면 제출 버튼을 활성화한다', async () => {
@@ -52,7 +52,7 @@ describe('SignInPage', () => {
 
     const emailInput = screen.getByLabelText('이메일');
     const passwordInput = screen.getByLabelText('비밀번호');
-    const submitButton = screen.getByRole('button', { name: '제출' });
+    const submitButton = screen.getByRole('button', { name: '로그인 하기' });
 
     await user.type(emailInput, 'invalid-email');
     await user.type(passwordInput, '1234');
@@ -80,7 +80,7 @@ describe('SignInPage', () => {
 
     await user.type(screen.getByLabelText('이메일'), 'invalid-login@example.test');
     await user.type(screen.getByLabelText('비밀번호'), 'QATestPass123');
-    await user.click(screen.getByRole('button', { name: '제출' }));
+    await user.click(screen.getByRole('button', { name: '로그인 하기' }));
 
     expect(await screen.findByRole('dialog', { name: '로그인 오류' })).toBeInTheDocument();
     expect(screen.getByText('로그인에 실패했습니다.')).toBeInTheDocument();

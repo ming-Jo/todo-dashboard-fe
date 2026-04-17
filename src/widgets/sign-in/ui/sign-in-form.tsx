@@ -22,6 +22,11 @@ export const SignInForm = ({ authMessage, isSubmitting, onSubmit }: SignInFormPr
     defaultValues: { email: '', password: '' },
   });
 
+  const emailRegister = register('email', signInFormRules.email);
+  const { ref: emailRef, ...emailRegisterProps } = emailRegister;
+  const passwordRegister = register('password', signInFormRules.password);
+  const { ref: passwordRef, ...passwordRegisterProps } = passwordRegister;
+
   const handleSignInSubmit = handleSubmit(async (values) => {
     await onSubmit(values);
   });
@@ -45,18 +50,20 @@ export const SignInForm = ({ authMessage, isSubmitting, onSubmit }: SignInFormPr
         noValidate
       >
         <SignInFormField
+          ref={emailRef}
           id='email'
           label='이메일'
           type='email'
           errorMessage={errors.email?.message}
-          {...register('email', signInFormRules.email)}
+          {...emailRegisterProps}
         />
         <SignInFormField
+          ref={passwordRef}
           id='password'
           label='비밀번호'
           type='password'
           errorMessage={errors.password?.message}
-          {...register('password', signInFormRules.password)}
+          {...passwordRegisterProps}
         />
         <button
           type='submit'
