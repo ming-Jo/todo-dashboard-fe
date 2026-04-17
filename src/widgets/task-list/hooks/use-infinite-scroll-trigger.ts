@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import type { RefObject } from 'react';
 
 interface UseInfiniteScrollTriggerParams {
-  viewportRef: RefObject<HTMLDivElement | null>;
+  viewportRef: RefObject<HTMLDivElement>;
   hasNextPage: boolean;
   isFetchingNextPage: boolean;
   fetchNextPage: () => Promise<unknown>;

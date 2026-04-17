@@ -10,7 +10,7 @@ interface TaskListItemsProps {
   startIndex: number;
   itemHeight: number;
   totalHeight: number;
-  loadMoreRef: RefObject<HTMLDivElement | null>;
+  loadMoreRef: RefObject<HTMLDivElement>;
 }
 
 export const TaskListItems = ({

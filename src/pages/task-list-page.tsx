@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 
-import { TaskList } from '@/widgets/task';
+import { TaskList } from '@/widgets/task-list';
 
 import { PageFallback } from '@/shared';
 
