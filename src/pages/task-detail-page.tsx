@@ -1,13 +1,27 @@
+import { Suspense } from 'react';
 import { useParams } from 'react-router-dom';
+
+import { TaskDetail, TaskDetailEmptyState } from '@/widgets/task-detail';
+
+import { PageFallback } from '@/shared';
 
 export const TaskDetailPage = () => {
   const { id } = useParams<{ id: string }>();
 
+  if (!id) {
+    return <TaskDetailEmptyState description='유효하지 않은 접근입니다.' />;
+  }
+
   return (
-    <section className='space-y-2'>
-      <h1 className='text-content-primary text-xl font-semibold'>할 일 상세</h1>
-      <p className='text-content-secondary text-sm'>현재 id: {id}</p>
-      <p className='text-content-secondary text-sm'>`/api/task/:id` 연동 전 임시 레이아웃입니다.</p>
-    </section>
+    <Suspense
+      fallback={
+        <PageFallback
+          title='할 일 상세'
+          description='상세 정보를 불러오는 중입니다.'
+        />
+      }
+    >
+      <TaskDetail id={id} />
+    </Suspense>
   );
 };
