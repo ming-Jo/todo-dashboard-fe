@@ -2,8 +2,8 @@ import type { AuthTokenResponse, SignInRequest } from '@/shared';
 
 export const MOCK_AUTH = {
   account: {
-    email: 'test@example.com',
-    password: 'Password123',
+    email: 'qa-login@example.test',
+    password: 'QATestPass123',
   } satisfies SignInRequest,
   token: {
     accessToken: 'mock-access-token',
