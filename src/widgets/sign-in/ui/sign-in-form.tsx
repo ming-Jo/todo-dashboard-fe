@@ -4,6 +4,8 @@ import { type SignInRequest } from '@/shared';
 
 import { signInFormRules } from '../model';
 
+import { SignInFormField } from './sign-in-form-field';
+
 interface SignInFormProps {
   authMessage?: string | null;
   isSubmitting: boolean;
@@ -17,10 +19,7 @@ export const SignInForm = ({ authMessage, isSubmitting, onSubmit }: SignInFormPr
     formState: { errors, isValid },
   } = useForm<SignInRequest>({
     mode: 'onChange',
-    defaultValues: {
-      email: '',
-      password: '',
-    },
+    defaultValues: { email: '', password: '' },
   });
 
   const handleSignInSubmit = handleSubmit(async (values) => {
@@ -45,40 +44,20 @@ export const SignInForm = ({ authMessage, isSubmitting, onSubmit }: SignInFormPr
         onSubmit={handleSignInSubmit}
         noValidate
       >
-        <div className='space-y-1'>
-          <label
-            htmlFor='email'
-            className='text-content-primary block text-sm font-medium'
-          >
-            이메일
-          </label>
-          <input
-            id='email'
-            type='email'
-            className='bg-layer focus-visible:ring-focus-ring w-full rounded-md border px-3 py-2 text-sm outline-none focus-visible:ring-2'
-            aria-invalid={Boolean(errors.email)}
-            {...register('email', signInFormRules.email)}
-          />
-          {errors.email && <p className='text-error text-xs'>{errors.email.message}</p>}
-        </div>
-
-        <div className='space-y-1'>
-          <label
-            htmlFor='password'
-            className='text-content-primary block text-sm font-medium'
-          >
-            비밀번호
-          </label>
-          <input
-            id='password'
-            type='password'
-            className='bg-layer focus-visible:ring-focus-ring w-full rounded-md border px-3 py-2 text-sm outline-none focus-visible:ring-2'
-            aria-invalid={Boolean(errors.password)}
-            {...register('password', signInFormRules.password)}
-          />
-          {errors.password && <p className='text-error text-xs'>{errors.password.message}</p>}
-        </div>
-
+        <SignInFormField
+          id='email'
+          label='이메일'
+          type='email'
+          errorMessage={errors.email?.message}
+          {...register('email', signInFormRules.email)}
+        />
+        <SignInFormField
+          id='password'
+          label='비밀번호'
+          type='password'
+          errorMessage={errors.password?.message}
+          {...register('password', signInFormRules.password)}
+        />
         <button
           type='submit'
           disabled={!isValid || isSubmitting}
