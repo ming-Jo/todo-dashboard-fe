@@ -5,7 +5,7 @@ import { clearAuthTokens, getAccessToken } from '../model/token-store';
 
 import { fetchUserProfileWithToken, refreshSession } from './auth-api';
 
-const withAuthRetry = async <T>(
+export const requestWithAuthRetry = async <T>(
   request: (accessToken: string) => Promise<T>,
   options?: { skipRetry?: boolean },
 ): Promise<T> => {
@@ -35,7 +35,7 @@ const withAuthRetry = async <T>(
 };
 
 export const fetchUserProfile = (): Promise<UserResponse> =>
-  withAuthRetry(fetchUserProfileWithToken);
+  requestWithAuthRetry(fetchUserProfileWithToken);
 
 export const initializeSession = async (): Promise<void> => {
   try {
