@@ -1,7 +1,6 @@
 import { ApiError, isApiError, type UserResponse } from '@/shared';
 
-import { redirectToSignIn } from '../model/auth-navigation';
-import { clearAuthTokens, getAccessToken } from '../model/token-store';
+import { clearAuthTokens, getAccessToken, redirectToSignIn } from '../model';
 
 import { fetchUserProfileWithToken, refreshSession } from './auth-api';
 

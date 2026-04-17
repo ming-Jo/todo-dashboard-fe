@@ -1,8 +1,18 @@
-export const UserPage = () => {
-  return (
-    <section className='space-y-2'>
-      <h1 className='text-content-primary text-xl font-semibold'>회원정보</h1>
-      <p className='text-content-secondary text-sm'>`/api/user` 연동 전 임시 레이아웃입니다.</p>
-    </section>
-  );
-};
+import { Suspense } from 'react';
+
+import { UserProfile } from '@/widgets/user';
+
+import { PageFallback } from '@/shared';
+
+export const UserPage = () => (
+  <Suspense
+    fallback={
+      <PageFallback
+        title='회원정보'
+        description='회원정보를 불러오는 중입니다.'
+      />
+    }
+  >
+    <UserProfile />
+  </Suspense>
+);

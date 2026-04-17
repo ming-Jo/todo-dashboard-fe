@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 
 import { type UserResponse } from '@/shared';
 
@@ -16,3 +16,9 @@ export const useUserProfileQuery = () => {
     enabled: hasAccessToken,
   });
 };
+
+export const useSuspenseUserProfileQuery = () =>
+  useSuspenseQuery<UserResponse>({
+    queryKey: AUTH_QUERY_KEY.profile(),
+    queryFn: fetchUserProfile,
+  });
