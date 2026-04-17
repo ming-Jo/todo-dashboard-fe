@@ -27,16 +27,11 @@ export const useInfiniteScrollTrigger = ({
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
-        if (!entry?.isIntersecting || !hasNextPage || isFetchingNextPage) {
-          return;
-        }
+        if (!entry?.isIntersecting || !hasNextPage || isFetchingNextPage) return;
 
         void fetchNextPage();
       },
-      {
-        root: viewport,
-        threshold: 0.1,
-      },
+      { root: viewport, threshold: 0.1 },
     );
 
     observer.observe(trigger);

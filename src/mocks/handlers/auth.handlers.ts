@@ -21,6 +21,14 @@ const getCookieValue = (cookieHeader: string | null, name: string): string | und
   return undefined;
 };
 
+const getBrowserCookieValue = (name: string): string | undefined => {
+  if (typeof document === 'undefined') {
+    return undefined;
+  }
+
+  return getCookieValue(document.cookie, name);
+};
+
 export const authHandlers = [
   http.post('/api/sign-in', async ({ request }) => {
     await delay(200);
@@ -55,7 +63,8 @@ export const authHandlers = [
       return HttpResponse.json(payload, { status: 400 });
     }
 
-    const refreshToken = getCookieValue(request.headers.get('cookie'), 'token');
+    const refreshToken =
+      getCookieValue(request.headers.get('cookie'), 'token') ?? getBrowserCookieValue('token');
     if (!refreshToken || refreshToken !== MOCK_AUTH.token.refreshToken) {
       const payload: ErrorResponse = {
         errorMessage:
