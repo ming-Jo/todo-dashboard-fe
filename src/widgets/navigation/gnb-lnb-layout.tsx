@@ -1,5 +1,7 @@
 import { NavLink, Outlet } from 'react-router-dom';
 
+import { useHasAccessToken, useUserProfileQuery } from '@/entities/auth';
+
 import { ROUTE } from '@/shared';
 
 const navigationLinkClassName = ({ isActive }: { isActive: boolean }): string =>
@@ -11,7 +13,12 @@ const navigationLinkClassName = ({ isActive }: { isActive: boolean }): string =>
   ].join(' ');
 
 export const GnbLnbLayout = () => {
-  const isLoggedIn = false;
+  const hasAccessToken = useHasAccessToken();
+  const { data: profile } = useUserProfileQuery();
+
+  const isLoggedIn = hasAccessToken && Boolean(profile);
+  const authLabel = isLoggedIn ? '[U] 회원정보' : '[L] 로그인';
+  const authTarget = isLoggedIn ? ROUTE.USER : ROUTE.SIGN_IN;
 
   return (
     <div className='bg-background min-h-svh'>
@@ -19,10 +26,10 @@ export const GnbLnbLayout = () => {
         <div className='mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-4'>
           <p className='text-content-primary text-sm font-semibold'>KB Healthcare</p>
           <NavLink
-            to={isLoggedIn ? ROUTE.USER : ROUTE.SIGN_IN}
+            to={authTarget}
             className='text-content-secondary text-sm hover:underline'
           >
-            {isLoggedIn ? '[U] 회원정보' : '[L] 로그인'}
+            {authLabel}
           </NavLink>
         </div>
       </header>
