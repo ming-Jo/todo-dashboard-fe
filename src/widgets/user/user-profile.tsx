@@ -32,6 +32,7 @@ export const UserProfile = () => {
           {isPendingSignOut ? '로그아웃 중...' : '로그아웃'}
         </button>
       </div>
+
       <article className='bg-layer-elevated space-y-3 rounded-lg border p-4'>
         <div>
           <p className='text-content-secondary text-sm'>이름</p>

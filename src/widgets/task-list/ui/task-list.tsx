@@ -14,10 +14,10 @@ export const TaskList = () => {
     useTaskListInfiniteQuery();
 
   const viewportRef = useRef<HTMLDivElement>(null);
-  const items = useMemo(() => data?.pages.flatMap((page) => page.items) ?? [], [data]);
+  const taskItems = useMemo(() => data?.pages.flatMap((page) => page.items) ?? [], [data]);
 
   const { totalHeight, startIndex, virtualItems, onScroll } = useVirtualTaskList({
-    items,
+    items: taskItems,
     itemHeight: ITEM_HEIGHT,
     viewportHeight: LIST_VIEWPORT_HEIGHT,
     overScan: OVER_SCAN,
@@ -33,11 +33,11 @@ export const TaskList = () => {
   const statusMessage = getTaskListStatusMessage({
     isFetchingNextPage,
     hasNextPage,
-    itemCount: items.length,
+    itemCount: taskItems.length,
   });
 
   const isRefreshing = isFetching && !isFetchingNextPage;
-  const isEmpty = !isFetching && items.length === 0;
+  const isEmpty = !isFetching && taskItems.length === 0;
 
   return (
     <section className='space-y-4'>

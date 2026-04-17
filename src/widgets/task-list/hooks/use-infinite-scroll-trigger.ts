@@ -20,16 +20,17 @@ export const useInfiniteScrollTrigger = ({
     const viewport = viewportRef.current;
     const trigger = loadMoreRef.current;
 
-    if (!viewport || !trigger) {
-      return;
-    }
+    if (!viewport || !trigger) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
+
         if (!entry?.isIntersecting || !hasNextPage || isFetchingNextPage) return;
 
-        void fetchNextPage();
+        fetchNextPage().catch((error) => {
+          console.error('Error fetching next page:', error);
+        });
       },
       { root: viewport, threshold: 0.1 },
     );

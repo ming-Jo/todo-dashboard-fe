@@ -7,6 +7,7 @@ import { getErrorMessage, ROUTE, useModal } from '@/shared';
 
 import { formatDateTime } from '../lib';
 
+import { DetailField } from './detail-field';
 import { TaskDeleteConfirmModal } from './task-delete-confirm-modal';
 import { TaskDetailEmptyState } from './task-detail-empty-state';
 
@@ -17,18 +18,18 @@ interface TaskDetailProps {
 export const TaskDetail = ({ id }: TaskDetailProps) => {
   const navigate = useNavigate();
 
+  const {
+    isOpen: isDeleteModalOpen,
+    openModal: openDeleteModal,
+    closeModal: closeDeleteModal,
+  } = useModal();
+
   const { data: taskDetail } = useTaskDetailQuery(id);
   const {
     mutateAsync: deleteTaskMutate,
     isPending: isDeleting,
     error: deleteError,
   } = useDeleteTaskMutation();
-
-  const {
-    isOpen: isDeleteModalOpen,
-    openModal: openDeleteModal,
-    closeModal: closeDeleteModal,
-  } = useModal();
 
   const [deleteConfirmText, setDeleteConfirmText] = useState('');
 
@@ -42,24 +43,24 @@ export const TaskDetail = ({ id }: TaskDetailProps) => {
   const formattedRegisterDatetime = formatDateTime(registerDatetime);
 
   return (
-    <section className='space-y-4'>
-      <h1 className='text-content-primary text-xl font-semibold'>할 일 상세</h1>
-      <article className='bg-layer-elevated space-y-4 rounded-xl border p-4'>
-        <div>
-          <p className='text-content-secondary text-sm'>제목</p>
-          <p className='text-content-primary mt-1 text-base font-semibold'>{title}</p>
-        </div>
-        <div>
-          <p className='text-content-secondary text-sm'>메모</p>
-          <p className='text-content-primary mt-1 text-base whitespace-pre-wrap'>{memo}</p>
-        </div>
-        <div>
-          <p className='text-content-secondary text-sm'>등록일시</p>
-          <p className='text-content-primary mt-1 text-sm'>{formattedRegisterDatetime}</p>
+    <section>
+      <h1 className='text-xl font-semibold'>할 일 상세</h1>
+      <article>
+        <p className='text-content-secondary px-2 py-1 text-right text-xs'>
+          {formattedRegisterDatetime}
+        </p>
+        <div className='bg-layer-elevated space-y-5 rounded-xl border p-4'>
+          <DetailField label='제목'>{title}</DetailField>
+          <DetailField
+            label='메모'
+            valueClassName='whitespace-pre-wrap'
+          >
+            {memo}
+          </DetailField>
         </div>
       </article>
 
-      <div className='flex justify-end gap-2'>
+      <div className='mt-4 flex justify-end gap-2'>
         <Link
           to={ROUTE.TASK_LIST}
           className='bg-layer-elevated text-content-primary hover:bg-layer inline-flex rounded-md border px-3 py-2 text-sm font-medium transition'
