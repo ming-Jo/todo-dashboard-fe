@@ -67,5 +67,10 @@ export const initializeSession = async (): Promise<void> => {
 };
 
 export const signOut = (): void => {
+  const enableMsw = import.meta.env.DEV || import.meta.env.VITE_ENABLE_MSW === 'true';
+  if (enableMsw && typeof document !== 'undefined') {
+    document.cookie = 'token=; Path=/; Max-Age=0; SameSite=Lax';
+  }
+
   clearAuthTokens();
 };
