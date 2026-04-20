@@ -1,55 +1,47 @@
-import { ApiError, isApiError, type UserResponse } from '@/shared';
+import { type UserResponse } from '@/shared';
 
-import { clearAuthTokens, getAccessToken, redirectToSignIn } from '../model';
+import {
+  authError,
+  clearAuthTokens,
+  getAccessToken,
+  redirectToSignInAndThrow,
+} from '../model';
 
 import { fetchUserProfileWithToken, refreshSession } from './auth-api';
 
-const isSessionExpiredError = (error: unknown): boolean =>
-  isApiError(error) && (error.status === 401 || error.status === 403);
+type AuthorizedRequest<T> = (accessToken: string) => Promise<T>;
 
-export const requestWithAuthRetry = async <T>(
-  request: (accessToken: string) => Promise<T>,
-  options?: { skipRetry?: boolean },
+const runWithRefreshedSession = async <T>(
+  request: AuthorizedRequest<T>,
+  expiredMessage: string,
 ): Promise<T> => {
+  try {
+    const nextTokens = await refreshSession();
+    return await request(nextTokens.accessToken);
+  } catch (refreshError) {
+    if (authError.isSessionExpired(refreshError)) {
+      redirectToSignInAndThrow(expiredMessage);
+    }
+
+    throw refreshError;
+  }
+};
+
+export const requestWithAuthRetry = async <T>(request: AuthorizedRequest<T>): Promise<T> => {
   const accessToken = getAccessToken();
+
   if (!accessToken) {
-    if (options?.skipRetry) {
-      const error = new ApiError(401, '로그인이 필요합니다.');
-      redirectToSignIn(error.message);
-      throw error;
-    }
-
-    try {
-      const nextTokens = await refreshSession();
-      return await request(nextTokens.accessToken);
-    } catch (refreshError) {
-      if (isSessionExpiredError(refreshError)) {
-        clearAuthTokens();
-        redirectToSignIn('로그인이 필요합니다.');
-      }
-
-      throw refreshError;
-    }
+    return runWithRefreshedSession(request, '로그인이 필요합니다.');
   }
 
   try {
     return await request(accessToken);
   } catch (error) {
-    if (options?.skipRetry || !isApiError(error) || error.status !== 401) {
+    if (!authError.isUnauthorized(error)) {
       throw error;
     }
 
-    try {
-      const nextTokens = await refreshSession();
-      return await request(nextTokens.accessToken);
-    } catch (refreshError) {
-      if (isSessionExpiredError(refreshError)) {
-        clearAuthTokens();
-        redirectToSignIn('세션이 만료되어 다시 로그인해 주세요.');
-      }
-
-      throw refreshError;
-    }
+    return runWithRefreshedSession(request, '세션이 만료되어 다시 로그인해 주세요.');
   }
 };
 
@@ -60,7 +52,7 @@ export const initializeSession = async (): Promise<void> => {
   try {
     await refreshSession();
   } catch (error) {
-    if (isSessionExpiredError(error)) {
+    if (authError.isSessionExpired(error)) {
       clearAuthTokens();
     }
   }

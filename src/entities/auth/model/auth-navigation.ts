@@ -8,6 +8,6 @@ export const redirectToSignIn = (message: string): void => {
   saveAuthErrorMessage(message);
 
   if (window.location.pathname !== ROUTE.SIGN_IN) {
-    window.location.assign(ROUTE.SIGN_IN);
+    window.location.replace(ROUTE.SIGN_IN);
   }
 };

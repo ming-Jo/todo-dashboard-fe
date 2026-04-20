@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import type { ErrorInfo, ReactNode } from 'react';
 
+import { authError } from '@/entities/auth';
+
 import { getErrorMessage } from '@/shared';
 
 type AppErrorBoundaryProps = {
@@ -29,6 +31,20 @@ export class AppErrorBoundary extends Component<AppErrorBoundaryProps, AppErrorB
     const { error } = this.state;
 
     if (error) {
+      if (authError.isRedirect(error)) {
+        return (
+          <section className='bg-background flex min-h-svh items-center justify-center p-4'>
+            <div className='text-content-secondary inline-flex items-center gap-2 text-sm'>
+              <span
+                className='border-content-secondary inline-block size-4 animate-spin rounded-full border-2 border-t-transparent'
+                aria-hidden='true'
+              />
+              로그인 페이지로 이동중...
+            </div>
+          </section>
+        );
+      }
+
       return (
         <section className='bg-background flex min-h-svh items-center justify-center p-4'>
           <div className='bg-layer w-full max-w-md rounded-xl border p-5'>
