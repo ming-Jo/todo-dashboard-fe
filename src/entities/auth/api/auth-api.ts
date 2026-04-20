@@ -8,7 +8,9 @@ let refreshPromise: Promise<AuthTokenResponse> | null = null;
  * msw 환경에서 쿠키를 동기화하기 위한 함수
  */
 const syncMockRefreshCookie = (refreshToken: string): void => {
-  if (!import.meta.env.DEV || typeof document === 'undefined') {
+  const enableMsw = import.meta.env.DEV || import.meta.env.VITE_ENABLE_MSW === 'true';
+
+  if (!enableMsw || typeof document === 'undefined') {
     return;
   }
 

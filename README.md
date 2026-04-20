@@ -1,6 +1,9 @@
 # Todo Dashboard
 
-`requirement.md`와 `openapi.yaml`을 기준으로 구현되었습니다. 로컬에서 **MSW**로 API를 모킹하며, **FSD(Feature-Sliced Design)** 레이어 구조로 페이지·위젯·엔티티를 분리합니다.
+- 🔗 [배포 URL](https://todo-dashboard-fe.vercel.app/)
+
+`requirement.md`와 `openapi.yaml`을 기준으로 구현되었습니다. **MSW**로 API를 모킹하며, **FSD(Feature-Sliced Design)** 레이어 구조를 사용합니다.
+
 
 ## 기술 스택
 
@@ -8,6 +11,7 @@
 | --------------------- | ------------------------------------------------- |
 | 런타임 | React 18, TypeScript |
 | 빌드·번들 | Vite, pnpm |
+| 배포 | Vercel |
 | 아키텍처 | FSD(Feature-Sliced Design) |
 | API mocking | MSW (`public/mockServiceWorker`) | 
 | state, fetch | TanStack Query, fetch 기반 HTTP 클라이언트 |
