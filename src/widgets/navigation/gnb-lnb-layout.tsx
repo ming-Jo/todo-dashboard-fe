@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom';
+import { LayoutDashboard, ListTodo, LogIn, UserRound } from 'lucide-react';
 
 import { useHasAccessToken, useUserProfileQuery } from '@/entities/auth';
 
@@ -6,7 +7,7 @@ import { ROUTE } from '@/shared';
 
 const navigationLinkClassName = ({ isActive }: { isActive: boolean }): string =>
   [
-    'rounded-md border px-3 py-2 text-sm transition',
+    'flex items-center gap-2 rounded-md border px-3 py-2 text-sm transition',
     isActive
       ? 'border-primary bg-primary text-primary-foreground'
       : 'bg-layer text-content-primary hover:bg-layer-elevated',
@@ -17,8 +18,10 @@ export const GnbLnbLayout = () => {
   const { data: profile } = useUserProfileQuery();
 
   const isLoggedIn = hasAccessToken && Boolean(profile);
-  const authLabel = isLoggedIn ? '[U] 회원정보' : '[L] 로그인';
-  const authTarget = isLoggedIn ? ROUTE.USER : ROUTE.SIGN_IN;
+  const authNavigation = isLoggedIn
+    ? { icon: UserRound, label: '회원정보', target: ROUTE.USER }
+    : { icon: LogIn, label: '로그인', target: ROUTE.SIGN_IN };
+  const AuthIcon = authNavigation.icon;
 
   return (
     <div className='bg-background min-h-svh'>
@@ -26,10 +29,11 @@ export const GnbLnbLayout = () => {
         <div className='mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-4'>
           <p className='text-content-primary text-sm font-semibold'>KB Healthcare</p>
           <NavLink
-            to={authTarget}
-            className='text-content-secondary text-sm hover:underline'
+            to={authNavigation.target}
+            className='text-content-secondary inline-flex items-center gap-1.5 text-sm hover:underline'
           >
-            {authLabel}
+            <AuthIcon size={16} aria-hidden='true' />
+            {authNavigation.label}
           </NavLink>
         </div>
       </header>
@@ -42,13 +46,15 @@ export const GnbLnbLayout = () => {
               end
               className={navigationLinkClassName}
             >
-              [D] 대시보드
+              <LayoutDashboard size={16} aria-hidden='true' />
+              대시보드
             </NavLink>
             <NavLink
               to={ROUTE.TASK_LIST}
               className={navigationLinkClassName}
             >
-              [T] 할 일
+              <ListTodo size={16} aria-hidden='true' />
+              할 일
             </NavLink>
           </nav>
         </aside>
