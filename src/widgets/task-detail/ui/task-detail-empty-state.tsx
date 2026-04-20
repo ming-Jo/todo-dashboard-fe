@@ -12,7 +12,7 @@ export const TaskDetailEmptyState = ({ description }: TaskDetailEmptyStateProps)
     <p className='text-content-secondary text-sm'>{description}</p>
     <Link
       to={ROUTE.TASK_LIST}
-      className='bg-layer-elevated text-content-primary inline-flex rounded-md border px-3 py-2 text-sm font-medium transition hover:bg-layer'
+      className='bg-layer-elevated text-content-primary hover:bg-layer inline-flex rounded-md border px-3 py-2 text-sm font-medium transition'
     >
       목록으로 돌아가기
     </Link>

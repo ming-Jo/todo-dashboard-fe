@@ -1,6 +1,11 @@
 import { requestWithAuthRetry } from '@/entities/auth';
 
-import { api, type DeleteTaskResponse, type TaskDetailResponse, type TaskListResponse } from '@/shared';
+import {
+  api,
+  type DeleteTaskResponse,
+  type TaskDetailResponse,
+  type TaskListResponse,
+} from '@/shared';
 
 const fetchTaskListWithToken = (accessToken: string, page: number): Promise<TaskListResponse> =>
   api.get<TaskListResponse>(`/api/task?page=${page}`, {

@@ -7,7 +7,11 @@ export const mapTaskListPage = (response: TaskListResponse, page: number): TaskL
   items: response.data,
 });
 
-export const mapTaskDetail = (id: string, response: TaskDetailResponse, status: TaskDetail['status']): TaskDetail => ({
+export const mapTaskDetail = (
+  id: string,
+  response: TaskDetailResponse,
+  status: TaskDetail['status'],
+): TaskDetail => ({
   id,
   title: response.title,
   memo: response.memo,

@@ -2,7 +2,12 @@ import { delay, http, HttpResponse } from 'msw';
 
 import { MOCK_TASK } from '../fixtures';
 
-import type { DeleteTaskResponse, ErrorResponse, TaskDetailResponse, TaskListResponse } from '@/shared';
+import type {
+  DeleteTaskResponse,
+  ErrorResponse,
+  TaskDetailResponse,
+  TaskListResponse,
+} from '@/shared';
 
 const getPageNumber = (url: URL): number => {
   const page = Number(url.searchParams.get('page') ?? '1');

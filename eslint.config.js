@@ -66,7 +66,9 @@ export default defineConfig([
             {
               from: { type: 'app' },
               allow: {
-                to: { type: ['app', 'pages', 'widgets', 'features', 'entities', 'shared', 'mocks'] },
+                to: {
+                  type: ['app', 'pages', 'widgets', 'features', 'entities', 'shared', 'mocks'],
+                },
               },
             },
             {

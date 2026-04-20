@@ -39,7 +39,8 @@ export const authHandlers = [
 
     if (!isValidUser) {
       const payload: ErrorResponse = {
-        errorMessage: '\uc774\uba54\uc77c \ub610\ub294 \ube44\ubc00\ubc88\ud638\uac00 \uc62c\ubc14\ub974\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.',
+        errorMessage:
+          '\uc774\uba54\uc77c \ub610\ub294 \ube44\ubc00\ubc88\ud638\uac00 \uc62c\ubc14\ub974\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.',
       };
       return HttpResponse.json(payload, { status: 400 });
     }

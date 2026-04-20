@@ -22,7 +22,10 @@ export const useVirtualTaskList = <T>({
   const startIndex = Math.max(0, Math.floor(scrollTop / itemHeight) - overScan);
   const endIndex = Math.min(items.length, startIndex + visibleCount + overScan * 2);
 
-  const virtualItems = useMemo(() => items.slice(startIndex, endIndex), [endIndex, items, startIndex]);
+  const virtualItems = useMemo(
+    () => items.slice(startIndex, endIndex),
+    [endIndex, items, startIndex],
+  );
 
   const onScroll: UIEventHandler<HTMLDivElement> = (event) => {
     setScrollTop(event.currentTarget.scrollTop);
