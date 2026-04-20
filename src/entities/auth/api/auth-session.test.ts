@@ -47,13 +47,13 @@ describe('auth-session', () => {
     expect(profile).toEqual({ name: '홍길동', memo: 'memo' });
   });
 
-  it('accessToken이 없고 세션 갱신이 401이면 로그인 페이지로 리다이렉트', async () => {
+  it('accessToken이 없고 세션 갱신이 401이면 로그인 필요 메시지로 리다이렉트', async () => {
     mocks.getAccessToken.mockReturnValue(null);
     mocks.refreshSession.mockRejectedValue(new ApiError(401, 'Refresh Unauthorized'));
 
     await expect(fetchUserProfile()).rejects.toBeInstanceOf(ApiError);
     expect(mocks.clearAuthTokens).toHaveBeenCalledTimes(1);
-    expect(mocks.redirectToSignIn).toHaveBeenCalledWith('세션이 만료되어 다시 로그인해 주세요.');
+    expect(mocks.redirectToSignIn).toHaveBeenCalledWith('로그인이 필요합니다.');
   });
 
   it('401 에러 발생 시 세션 갱신 후 재시도', async () => {

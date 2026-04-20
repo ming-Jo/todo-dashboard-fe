@@ -25,7 +25,7 @@ export const requestWithAuthRetry = async <T>(
     } catch (refreshError) {
       if (isSessionExpiredError(refreshError)) {
         clearAuthTokens();
-        redirectToSignIn('세션이 만료되어 다시 로그인해 주세요.');
+        redirectToSignIn('로그인이 필요합니다.');
       }
 
       throw refreshError;
