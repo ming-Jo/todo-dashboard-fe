@@ -1,8 +1,12 @@
 # Todo Dashboard
 
-- 🔗 [배포 URL](https://todo-dashboard-fe.vercel.app/)
+[![배포 URL](https://img.shields.io/badge/배포%20URL-🔗-0A66C2)](https://todo-dashboard-fe.vercel.app/)
 
-`requirement.md`와 `openapi.yaml`을 기준으로 구현되었습니다. **MSW**로 API를 모킹하며, **FSD(Feature-Sliced Design)** 레이어 구조를 사용합니다.
+`requirement.md`와 `openapi.yaml`을 기준으로 구현되었습니다.
+
+**MSW**로 API를 모킹하며, **FSD(Feature-Sliced Design)** 레이어 구조를 사용합니다.
+
+👉 [로그인 테스트 계정 (mock 유저)](#로그인-테스트-mock-유저)
 
 
 ## 기술 스택
@@ -50,7 +54,7 @@ pnpm run dev
 | [TEST_MOCK_FIXTURE.md](docs/TEST_MOCK_FIXTURE.md) | MSW mock 계정, 토큰·쿠키 규칙, 회원정보 fixture        |
 | [AI_USAGE.md](docs/AI_USAGE.md)                   | 에이전트·AI 활용 범위 및 검증 체크리스트                     |
 
-## Mock 로그인 (로컬·테스트)
+## 로그인 테스트 (mock 유저)
 
 (참고) [TEST_MOCK_FIXTURE.md](docs/TEST_MOCK_FIXTURE.md)
 
